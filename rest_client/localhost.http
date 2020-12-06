@@ -1,0 +1,103 @@
+###
+GET http://localhost:3000/api/devices HTTP/1.1
+
+###
+GET http://localhost:3000/api/devices/5fc6afb284ac0a75fa98d18d HTTP/1.1
+
+###
+POST http://localhost:3000/api/devices HTTP/1.1
+Content-Type: application/json
+
+{
+    "number":1,
+    "board": "Wemos D1",
+    "moduleWifi": "ESP8266",
+    "macAddress": "84:0D:8E:A3:B1:EA",
+    "thermometer": "LM35",
+    "accelerometer": "MPU6050"
+}
+
+###
+GET http://localhost:3000/api/devices/asd HTTP/1.1
+###
+GET http://localhost:3000/api/devices/5fa45c8f0abd0a30caa181af HTTP/1.1
+
+###
+GET http://192.168.0.43:3000/accelerometer HTTP/1.1
+
+###
+GET http://localhost:3000/accelerometer/5fa45c8f0abd0a30caa181af HTTP/1.1
+
+###
+
+POST http://localhost:3000/accelerometer HTTP/1.1
+content-type: application/json
+
+{
+    "x":3766,
+    "y":15,
+    "z":6,
+    "pitch":10,
+    "roll":-1,
+    "inclination":"1",
+    "orientation":"1",
+    "acceleration":"1",
+    "deviceId":"5fa45c8f0abd0a30caa181af"
+}
+
+###
+GET http://localhost:3000/api/gyro HTTP/1.1
+
+###
+POST http://localhost:3000/api/gyro HTTP/1.1
+content-type: application/json
+
+{
+
+    "x":1,
+    "y":1,
+    "z":1,
+    "pitch":{"rate":1},
+    "roll":{"rate":1},
+    "yaw":{"rate":1},
+    "deviceId":"5fa45c8f0abd0a30caa181af"
+}
+
+###
+GET http://localhost:3000/api/thermometer HTTP/1.1
+
+###
+
+POST http://localhost:3000/api/thermometer HTTP/1.1
+content-type: application/json
+
+{
+    "C":22,
+    "K":231,
+    "F":124,
+    "deviceId":"5fa45c8f0abd0a30caa181af"
+}
+
+###
+GET http://localhost:3000/api/cows HTTP/1.1
+
+###
+GET http://localhost:3000/api/cows/5fa0697d2849ad2f2ee3e2a8 HTTP/1.1
+
+
+###
+POST http://localhost:3000/api/cows HTTP/1.1
+content-Type: application/json
+
+{
+    "brand":"chavez",
+    "ageMonth":"10",
+    "number":"6",
+    "entryDate":"2020-11-01T04:00:00.000Z",
+    "startingWeight":"320.56",
+    "race":"nelore",
+    "gender":"female",
+    "state":"good"
+}
+###
+DELETE  http://localhost:3000/api/cows HTTP/1.1
