@@ -1,11 +1,5 @@
-###
-node_modules
 
-###
-.vscode
-
-###
-package-lock.json
-
-###
 .env
+.vscode
+node_modules
+package-lock.json
