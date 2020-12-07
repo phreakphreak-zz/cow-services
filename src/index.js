@@ -1,7 +1,7 @@
 require("dotenv").config();
 const logger = require("./services/logger/index");
 const app = require("./app");
-const port = app.get("port");
+const port = process.env.PORT || app.get("port");
 const host = app.get("host");
 const server = app.listen(port);
 const { connection } = app.get("mongooseClient");

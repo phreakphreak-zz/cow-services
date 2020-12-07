@@ -12,11 +12,11 @@ const socketio = require("@feathersjs/socketio");
 const database = require("./services/database/index");
 const channels = require("./channels");
 const hooks = require("./hooks");
-const services = require("./components/index");
+const servicesComponents = require("./components/index");
 
 //Setting App
 const app = express(feathers());
-//app.set("port",process.env.PORT || 3000);
+
 app.configure(configuration());
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(morgan("dev"));
@@ -35,11 +35,8 @@ app.configure(socketio());
 
 //Setting Database - MongoDB
 app.configure(database);
-
-
 //Setting Services Components
-app.configure(services);
-
+app.configure(servicesComponents);
 //Setting Channels
 app.configure(channels);
 

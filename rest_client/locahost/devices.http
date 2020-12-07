@@ -1,0 +1,27 @@
+###
+GET http://localhost:3000/devices HTTP/1.1
+
+###
+GET http://localhost:3000/devices/5fc6afb284ac0a75fa98d18d HTTP/1.1
+
+###
+POST http://localhost:3000/devices HTTP/1.1
+Content-Type: application/json
+
+{
+    "number":3,
+    "board": "Wemos D1",
+    "moduleWifi": "ESP8266",
+    "macAddress": "84:0D:8E:A3:B1:EA",
+    "thermometer": "LM35",
+    "accelerometer": "MPU6050",
+    "gyro":"MPU6050"
+}
+
+###
+GET http://localhost:3000/api/devices/asd HTTP/1.1
+###
+GET http://localhost:3000/api/devices/5fa45c8f0abd0a30caa181af HTTP/1.1
+
+
+###

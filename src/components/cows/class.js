@@ -7,7 +7,7 @@ exports.Cows = class Cows extends (
     return await super.find(params);
   }
 
-  async get(id, params, callback) {
+  async get(id, params) {
     return await super.get(id, params);
   }
 

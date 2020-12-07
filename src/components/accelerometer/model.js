@@ -1,7 +1,7 @@
 module.exports = function (app) {
   const modelName = "accelerometer";
   const mongooseClient = app.get("mongooseClient");
-  const { Schema } = mongooseClient;
+  const { Schema,model } = mongooseClient;
   const schema = new Schema(
     {
       data: {
@@ -21,10 +21,8 @@ module.exports = function (app) {
     }
   );
 
-  // This is necessary to avoid model compilation errors in watch mode
-  // see https://mongoosejs.com/docs/api/connection.html#connection_Connection-deleteModel
   if (mongooseClient.modelNames().includes(modelName)) {
     mongooseClient.deleteModel(modelName);
   }
-  return mongooseClient.model(modelName, schema);
+  return model(modelName, schema);
 };

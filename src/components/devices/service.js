@@ -1,4 +1,4 @@
-const { Cows } = require("./class");
+const { Devices } = require("./class");
 const createModel = require("./model");
 const hooks = require("./hooks");
 
@@ -9,9 +9,9 @@ module.exports = function (app) {
     paginate: false,
   };
 
-  app.use("/cows", new Cows(options, app));
+  app.use("/devices", new Devices(options, app));
 
-  const service = app.service("cows");
+  const service = app.service("devices");
 
   service.hooks(hooks);
 };

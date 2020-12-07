@@ -1,15 +1,10 @@
 
-const test = async context => {
-  context.data.test = "hello world"
-  
-  return context;
-};
 module.exports = {
     before: {
       all: [],
       find: [],
       get: [],
-      create: [test],
+      create: [],
       update: [],
       patch: [],
       remove: []
