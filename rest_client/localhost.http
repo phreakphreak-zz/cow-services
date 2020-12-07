@@ -23,20 +23,29 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:3000/api/gyro HTTP/1.1
+GET http://localhost:3000/gyro HTTP/1.1
 
 ###
-POST http://localhost:3000/api/gyro HTTP/1.1
-content-type: application/json
+POST http://localhost:3000/gyro HTTP/1.1
+Content-type: application/json
 
 {
-
-    "x":1,
-    "y":1,
-    "z":1,
-    "pitch":{"rate":1},
-    "roll":{"rate":1},
-    "yaw":{"rate":1},
+    "x": 126,
+    "y": 126,
+    "z": 127,
+    "pitch": {
+        "rate": 0.27,
+        "angle": 3.4
+    },
+    "roll": {
+        "rate": -0.23,
+        "angle": -4.67
+    },
+    "yaw": {
+        "rate": -0.3,
+        "angle": 6.87
+    },
+    "isCalibrated":true,
     "deviceId":"5fa45c8f0abd0a30caa181af"
 }
 

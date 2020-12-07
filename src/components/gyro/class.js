@@ -1,6 +1,6 @@
 const { Service } = require("feathers-mongoose");
 
-exports.Accelerometer = class Accelerometer extends (
+exports.Gyro = class Gyro extends (
   Service
 ) {
   async find(params) {
@@ -12,19 +12,9 @@ exports.Accelerometer = class Accelerometer extends (
   }
 
   async create(data, params) {
-    const {
-      x,
-      y,
-      z,
-      pitch,
-      roll,
-      inclination,
-      orientation,
-      acceleration,
-      deviceId,
-    } = data;
+    const { deviceId, x, y, z, pitch, roll, yaw, isCalibrated } = data;
 
-    const accelerometerData = {
+    const gyroData = {
       data: {
         deviceId,
         x,
@@ -32,14 +22,13 @@ exports.Accelerometer = class Accelerometer extends (
         z,
         pitch,
         roll,
-        inclination,
-        orientation,
-        acceleration,
+        yaw,
+        isCalibrated,
       },
     };
-    return await super.create(accelerometerData, params);
-  }
 
+    return await super.create(gyroData, params);
+  }
   async update(id, data, params) {}
 
   async patch(id, data, params) {}
