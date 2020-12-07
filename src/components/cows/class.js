@@ -13,31 +13,31 @@ exports.Cows = class Cows extends (
 
   async create(data, params) {
     const {
-      x,
-      y,
-      z,
-      pitch,
-      roll,
-      inclination,
-      orientation,
-      acceleration,
-      deviceId,
+      brand,
+      ageMonth,
+      number,
+      entryDate,
+      exitDate,
+      startingWeight,
+      finalWeight,
+      race,
+      gender,
+      state,
     } = data;
 
-    const accelerometerData = {
-      data: {
-        deviceId: deviceId,
-        x,
-        y,
-        z,
-        pitch,
-        roll,
-        inclination,
-        orientation,
-        acceleration,
-      },
+    const cowsData = {
+      brand,
+      ageMonth,
+      number,
+      entryDate,
+      exitDate,
+      startingWeight,
+      finalWeight,
+      race,
+      gender,
+      state,
     };
-    return await super.create(accelerometerData, params);
+    return await super.create(cowsData, params);
   }
 
   async update(id, data, params) {}

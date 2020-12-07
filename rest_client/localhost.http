@@ -63,8 +63,8 @@ GET http://localhost:3000/api/cows/5fa0697d2849ad2f2ee3e2a8 HTTP/1.1
 
 
 ###
-POST http://localhost:3000/api/cows HTTP/1.1
-content-Type: application/json
+POST http://localhost:3000/cows HTTP/1.1
+Content-Type: application/json
 
 {
     "brand":"chavez",
