@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CowSensorApp</title>
+    <link
+      rel="stylesheet"
+      href="//unpkg.com/feathers-chat@4.0.0/public/base.css"
+    />
+    <link
+      rel="stylesheet"
+      href="//unpkg.com/feathers-chat@4.0.0/public/chat.css"
+    />
+  </head>
+  <body>
+    <main id="main" class="container">
+      <h1>Adjust Motion Parameters</h1>
+
+      <form class="form" onsubmit="sendData(event.preventDefault())">
+        <input type="text" id="x" placeholder="x" />
+        <label for="x"> x</label></br>
+        <input type="text" id="y" placeholder="y" />
+        <label for="y"> y</label></br>
+        
+        <input type="text" id="z" placeholder="z" /><label for="z"> z</label></br>
+        
+        <input type="text" id="pitch" placeholder="pitch" /><label for="pitch"> pitch</label></br>
+        
+        <input type="text" id="roll" placeholder="roll" /><label for="roll"> roll</label></br>
+
+        <input type="text" id="inclination" placeholder="inclination" /><label for="inclination"> inclination</label></br>
+        
+        <input type="text" id="orientation" placeholder="orientation" /><label for="orientation"> orientation</label></br>
+        
+        <input type="text" id="acceleration" placeholder="acceleration" /><label for="acceleration"> acceleration</label></br>
+        <label for="action">Choose an Action:</label>
+
+        <select name="action" id="action">
+          <option value="recostado">recostado</option>
+          <option value="parado">parado</option>
+          <option value="comiendo">comiendo</option>
+          <option value="caminando">caminando</option>
+        </select> </br>
+        <button type="submit" class="button button-primary">Send Action
+        </button>
+      </form>
+    </main>
+
+    <script src="//unpkg.com/@feathersjs/client@^4.3.0/dist/feathers.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script type="text/javascript">
+
+      const socket = io("http://localhost:3000");
+      const app = feathers();
+      app.configure(feathers.socketio(socket));
+
+      // Form submission handler that sends a new message
+    //   async function sendData() {
+    //     const messageInput = document.getElementById("message-text");
+
+    //     // Create a new message with the input field value
+    //     await app.service("messages").create({
+    //       text: messageInput.value,
+    //     });
+
+    //     messageInput.value = "";
+    //   }
+
+      function addValuesAccelerometer(data) {
+        console.log("metodo ejecutandose");
+
+        const x = document.getElementById("x");
+        const y = document.getElementById("y");
+        const z = document.getElementById("z");
+        const pitch = document.getElementById("pitch");
+        const roll = document.getElementById("roll");
+        const inclination = document.getElementById("inclination");
+        const orientation = document.getElementById("orientation");
+        const acceleration = document.getElementById("acceleration");
+        x.value = data.x;
+        y.value = data.y;
+        z.value = data.z;
+        pitch.value = data.pitch;
+        roll.value = data.roll;
+        inclination.value = data.inclination;
+        orientation.value = data.orientation;
+        acceleration.value = data.acceleration;
+      }
+      const main = async () => {
+        try {
+
+        const response = await app.service("accelerometer").find({
+          query: {
+            "data.deviceId": "5fa45c8f0abd0a30caa181af",
+            $limit: 1,
+            $sort: {
+              $natural: -1,
+            },
+          },
+        });
+
+        response.forEach(element => {
+          const {data} = element;
+          addValuesAccelerometer(data);
+        });
+
+
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      app.service("accelerometer").on("created", LastResult);
+
+      async function LastResult() {
+        const res = await app.service("accelerometer").find({
+          query: {
+            "data.deviceId": "5fa45c8f0abd0a30caa181af",
+            $limit: 1,
+            $sort: {
+              $natural: -1,
+            },
+          },
+        });
+        res.forEach(element => addValuesAccelerometer(element.data))
+        console.log(res);
+      }
+
+      
+    </script>
+    <button onclick="main()" value="loadLastResult">loadLastResult</button>
+  </body>
+</html>

@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +18,10 @@
     "@feathersjs/feathers": "^4.5.10",
     "@feathersjs/socketio": "^4.5.10",
     "@feathersjs/transport-commons": "^4.5.10",
+    "@tensorflow-models/knn-classifier": "^1.1.0",
+    "@tensorflow/tfjs": "^2.7.0",
+    "@tensorflow/tfjs-node": "^2.7.0",
+    "axios": "^0.21.0",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",

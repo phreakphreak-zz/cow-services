@@ -1,0 +1,20 @@
+
+###
+GET http://localhost:3000/thermometer HTTP/1.1
+
+###
+GET http://localhost:3000/thermometer/5fc29acb37d4179d8c9f11d4 HTTP/1.1
+
+###
+
+POST http://localhost:3000/thermometer HTTP/1.1
+content-type: application/json
+
+{
+    "C":22,
+    "K":231,
+    "F":124,
+    "deviceId":"5fa45c8f0abd0a30caa181af"
+}
+
+###
