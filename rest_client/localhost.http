@@ -87,3 +87,39 @@ Content-Type: application/json
 }
 ###
 DELETE  http://localhost:3000/api/cows HTTP/1.1
+
+
+###
+
+POST http://localhost:3000/knnclassifiers HTTP/1.1
+Content-Type: application/json
+
+{
+    "x":3766,
+    "y":15,
+    "z":6,
+    "pitch":10,
+    "roll":-1,
+    "inclination":1,
+    "orientation":1,
+    "acceleration":1,
+    "action":"accion",
+    "label":0
+}
+
+###
+POST http://localhost:3000/knnclassifiers HTTP/1.1
+Content-Type: application/json
+
+{
+    "x":4766,
+    "y":15,
+    "z":6,
+    "pitch":10,
+    "roll":-1,
+    "inclination":1,
+    "orientation":1,
+    "acceleration":1,
+    "action":"accion",
+    "label":1
+}

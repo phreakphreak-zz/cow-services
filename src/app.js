@@ -13,6 +13,7 @@ const database = require("./services/database/index");
 const channels = require("./channels");
 const hooks = require("./hooks");
 const servicesComponents = require("./components/index");
+const routes = require("./routes/index");
 
 //Setting App
 const app = express(feathers());
@@ -40,6 +41,7 @@ app.configure(servicesComponents);
 //Setting Channels
 app.configure(channels);
 
+app.use(routes);
 
 //Error Handler
 app.use(express.notFound());
