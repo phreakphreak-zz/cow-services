@@ -108,7 +108,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/knnclassifiers HTTP/1.1
+POST http://localhost:3000/knnclassifiers/accelerometer HTTP/1.1
 Content-Type: application/json
 
 {
@@ -121,5 +121,16 @@ Content-Type: application/json
     "orientation":1,
     "acceleration":1,
     "action":"accion",
-    "label":1
+    "label":4,
+    "component":"accelerometer"
+}
+
+###
+POST http://localhost:3000/streaming/upload HTTP/1.1
+Content-Type: application/json
+
+{
+    "collectionName":"classifiers",
+    "fileName":"dataset.json",
+    "filePath": "./dataset.json"
 }

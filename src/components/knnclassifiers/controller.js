@@ -1,23 +1,36 @@
 const knnclassifiersController = {};
-const {
-  setExampleClassifier,
-  convertTensor,
-  predictClassifier,
-  createClassifier,
-  saveClassifier
-} = require("../../services/ia/knn");
+const { Knn } = require("../../services/ia/Knn");
+const knn = new Knn();
 const logger = require("../../services/logger/index");
 
-//middleware
-knnclassifiersController.create = async (req, res, next) => {
+knnclassifiersController.generateClassifier = async (req, res, next) => {
   try {
-    const classifier = await createClassifier();
-    req.params.classifier = classifier;
-    console.log("knn created")
+    if (!knn.getClassifier) {
+      const state = await knn.createClassifier();
+      if (!state) {
+        throw "error classifiers not created";
+      }
+    }
     next();
   } catch (error) {
-    logger.error(error);
-    res.status(400).json({ message:error });
+    console.log(error);
+    res.status(400).json({ error });
+  }
+};
+
+knnclassifiersController.load = async (req, res, next) => {
+  try {
+    const { component } = req.params;
+    const resource = `/${component}/dataset.json`;
+    const state = await knn.loadClassifier(resource);
+    // if (!state) {
+    //   throw "error at classifiers load";
+    // }
+    req.params.component = component;
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error });
   }
 };
 
@@ -37,10 +50,11 @@ knnclassifiersController.dataAccelerometer = async (req, res, next) => {
       acceleration,
       action,
       label,
+      component
     } = req.body;
     console.log(req.body);
-    console.log(typeof(x));
-    const tensor = await convertTensor([
+    console.log(typeof x);
+    const tensor = await knn.convertTensor([
       x,
       y,
       z,
@@ -54,9 +68,10 @@ knnclassifiersController.dataAccelerometer = async (req, res, next) => {
     req.params.tensor = tensor;
     req.params.action = action;
     req.params.label = label;
+
+    req.params.component=component;
     next();
   } catch (error) {
-
     logger.error(error);
     res.status(400).json({ message: error });
   }
@@ -68,14 +83,13 @@ knnclassifiersController.dataThermometer = async (req, res, next) => {
       throw "body without params";
     }
     const { C, F, K, action, label } = req.body;
-    const tensor = await convertTensor([C, F, K]);
+    const tensor = await knn.convertTensor([C, F, K]);
 
     req.params.tensor = tensor;
     req.params.action = action;
     req.params.label = label;
     next();
   } catch (error) {
-
     logger.error(error);
     res.status(400).json({ message: error });
   }
@@ -97,9 +111,9 @@ knnclassifiersController.dataGyro = async (req, res, next) => {
       yawRate,
       yawAngle,
       action,
-      label
+      label,
     } = req.body;
-    const tensor = await convertTensor([
+    const tensor = await knn.convertTensor([
       x,
       y,
       z,
@@ -116,7 +130,6 @@ knnclassifiersController.dataGyro = async (req, res, next) => {
     req.params.label = label;
     next();
   } catch (error) {
-
     logger.error(error);
     res.status(400).json({ message: error });
   }
@@ -124,17 +137,12 @@ knnclassifiersController.dataGyro = async (req, res, next) => {
 
 knnclassifiersController.setExample = async (req, res, next) => {
   try {
-    const { classifier, label, tensor } = req.params;
-
-    if (!classifier) {
-      throw "classfier is not generated";
-    }
-    req.params.classifier = await setExampleClassifier(
-      classifier,
-      tensor,
-      label
-    );
+    
+    const { label, tensor,component } = req.params;
+    await knn.setExampleClassifier(tensor, label);
     console.log("example added");
+
+    req.params.component=component;
     next();
   } catch (error) {
     logger.error(error);
@@ -142,20 +150,23 @@ knnclassifiersController.setExample = async (req, res, next) => {
   }
 };
 
-knnclassifiersController.save = async (req,res,next)=>{
-try {
-  const { classifier } = req.params;
-  if (!classifier) {
-    throw "classfier is not generated";
-  }
-  await saveClassifier(classifier);
-  res.status(200).json({message:"ok"});
-} catch (error) {
-  logger.error(error);
-    res.status(400).json({ error });
-}
-}
+knnclassifiersController.save = async (req, res, next) => {
+  try {
+    const { component } = req.params;
+    const resource = `/${component}/dataset.json`;
+    console.log(resource);
+    const state = await knn.saveClassifier(resource);
 
+    if(!state){
+      throw "error saving file json";
+    }
+    knn.setClassifier=null;
+    res.status(200).json({ message: "ok" });
+  } catch (error) {
+    logger.error(error);
+    res.status(400).json({ error });
+  }
+};
 
 knnclassifiersController.predict = async (req, res, next) => {
   try {

@@ -1,7 +1,8 @@
 const { Router } = require("@feathersjs/express");
 const router = Router();
 const {
-  create,
+  generateClassifier,
+  load,
   dataAccelerometer,
   dataThermometer,
   dataGyro,
@@ -12,7 +13,14 @@ const {
 
 // router.get();
 
-router.post("/",create,dataAccelerometer,setExample,save);
+router.post(
+  "/accelerometer",
+  dataAccelerometer,
+  generateClassifier,
+  load,
+  setExample,
+  save
+);
 
 // router.get();
 
