@@ -41,6 +41,14 @@
           <option value="comiendo">comiendo</option>
           <option value="caminando">caminando</option>
         </select> </br>
+        <label for="label">Choose an Label:</label>
+
+        <select name="label" id="label">
+          <option value="0">recostado</option>
+          <option value="1">parado</option>
+          <option value="2">comiendo</option>
+          <option value="3">caminando</option>
+        </select> </br>
         <button type="submit" class="button button-primary">Send Action
         </button>
       </form>
@@ -48,23 +56,57 @@
 
     <script src="//unpkg.com/@feathersjs/client@^4.3.0/dist/feathers.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
 
       const socket = io("http://localhost:3000");
       const app = feathers();
       app.configure(feathers.socketio(socket));
 
-      // Form submission handler that sends a new message
-    //   async function sendData() {
-    //     const messageInput = document.getElementById("message-text");
+      async function test() {
+        
 
-    //     // Create a new message with the input field value
-    //     await app.service("messages").create({
-    //       text: messageInput.value,
-    //     });
+        const {data} = await axios.post("http://localhost:3000/devices",{
+          number:10,
+          board: "Wemos D1",
+          moduleWifi: "ESP8266",
+          macAddress: "84:0D:8E:A3:B1:EA",
+          thermometer: "LM35",
+          accelerometer: "MPU6050",
+          gyro:"MPU6050"
+        });
+        console.log(data);
+      }
+      async function sendData() {
+        
+        const x = document.getElementById("x");
+        const y = document.getElementById("y");
+        const z = document.getElementById("z");
+        const pitch = document.getElementById("pitch");
+        const roll = document.getElementById("roll");
+        const inclination = document.getElementById("inclination");
+        const orientation = document.getElementById("orientation");
+        const acceleration = document.getElementById("acceleration");
 
-    //     messageInput.value = "";
-    //   }
+        const action = document.getElementById("action");
+        const label = document.getElementById("label");
+        const uri = "http://localhost:3000/knnclassifiers/accelerometer";
+        const {data} = await axios.post(uri,{
+          x:parseFloat(x.value),
+          y:parseFloat(y.value),
+          z:parseFloat(z.value),
+          pitch:parseFloat(pitch.value),
+          roll:parseFloat(roll.value),
+          inclination:parseFloat(inclination.value),
+          orientation:parseFloat(orientation.value),
+          acceleration:parseFloat(acceleration.value),
+          action:action.value,
+          label:parseInt(label.value),
+          component:"accelerometer"
+        });
+        console.log(data.message);
+      }
+
 
       function addValuesAccelerometer(data) {
         console.log("metodo ejecutandose");
@@ -86,36 +128,13 @@
         orientation.value = data.orientation;
         acceleration.value = data.acceleration;
       }
-      const main = async () => {
-        try {
-
-        const response = await app.service("accelerometer").find({
-          query: {
-            "data.deviceId": "5fd0e902ba8bf66fdc260888",
-            $limit: 1,
-            $sort: {
-              $natural: -1,
-            },
-          },
-        });
-
-        response.forEach(element => {
-          const {data} = element;
-          addValuesAccelerometer(data);
-        });
-
-
-        } catch (error) {
-          console.error(error);
-        }
-      };
 
       app.service("accelerometer").on("created", LastResult);
 
       async function LastResult() {
         const res = await app.service("accelerometer").find({
           query: {
-            "data.deviceId": "5fa45c8f0abd0a30caa181af",
+            "data.deviceId": "5fd147e062a6f65fa202b68c",
             $limit: 1,
             $sort: {
               $natural: -1,
@@ -128,6 +147,8 @@
 
       
     </script>
-    <button onclick="main()" value="loadLastResult">loadLastResult</button>
+    <button onclick="LastResult()" value="loadLastResult">loadLastResult</button>
+
+    <button onclick="test()" value="test">test</button>
   </body>
 </html>
