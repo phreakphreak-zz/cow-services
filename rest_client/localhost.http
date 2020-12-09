@@ -126,6 +126,24 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:3000/knnclassifiers/accelerometer HTTP/1.1
+Content-Type: application/json
+
+{
+    "x":10,
+    "y":15,
+    "z":6,
+    "pitch":10,
+    "roll":-1,
+    "inclination":1,
+    "orientation":1,
+    "acceleration":1,
+    "action":"accion",
+    "label":1,
+    "component":"accelerometer"
+}
+
+###
 POST http://localhost:3000/streaming/upload HTTP/1.1
 Content-Type: application/json
 
