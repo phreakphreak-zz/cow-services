@@ -62,7 +62,15 @@ exports.Knn = class Knn {
   }
   async saveClassifier(resource) {
     try {
-      let jsonStr = JSON.stringify( Object.entries(this.classifier.getClassifierDataset()).map(([label, data])=>[label, Array.from(data.dataSync()), data.shape]) );
+      let jsonStr = JSON.stringify(
+        Object.entries(
+          this.classifier.getClassifierDataset()
+        ).map(([label, data]) => [
+          label,
+          Array.from(data.dataSync()),
+          data.shape,
+        ])
+      );
 
       // let dataset = await this.classifier.getClassifierDataset();
       // const datasetObj = {};
@@ -75,7 +83,7 @@ exports.Knn = class Knn {
       const dir = await this.verifyResource(resource);
       console.log(dir);
       if (!dir) {
-         fs.writeFile(dir, jsonStr, function (err) {
+        fs.writeFile(dir, jsonStr, function (err) {
           if (err) {
             console.log("An error occured while writing JSON Object to File.");
             return null;
@@ -84,13 +92,13 @@ exports.Knn = class Knn {
         });
       }
 
-      fs.writeFile(dir, jsonStr,function (err) {
-          if (err) {
-            console.log("An error occured while writing JSON Object to File.");
-            return null;
-          }
-          console.log("JSON file has been saved.");
-        });
+      fs.writeFile(dir, jsonStr, function (err) {
+        if (err) {
+          console.log("An error occured while writing JSON Object to File.");
+          return null;
+        }
+        console.log("JSON file has been saved.");
+      });
       return true;
     } catch (error) {
       console.log(error);
@@ -121,23 +129,28 @@ exports.Knn = class Knn {
   async loadClassifier(resource) {
     try {
       const dir = await this.verifyResource(resource);
-      console.log("from load",dir)
-        let dataset=fs.readFileSync(dir);
-        console.log(dataset);
-        // let tensorObj = JSON.parse(dataset);
-        // console.log(tensorObj);
-
-        this.classifier.setClassifierDataset( Object.fromEntries( JSON.parse(dataset).map(([label, data, shape])=>[label, tf.tensor(data, shape)]) ) );
-
-        // Object.keys(tensorObj).forEach((key) => {
-        //   tensorObj[key] = tf.tensor(tensorObj[key], [
-        //     tensorObj[key].length / 1000,
-        //     1000,
-        //   ]);
-        // });
-        // this.classifier.setClassifierDataset(tensorObj);
-        return true;
+      console.log("from load", dir);
+      let dataset = fs.readFileSync(dir);
+      if(!dataset.length===0){
+        let datasetJson = JSON.parse(dataset);
+        //console.log(datasetJson);
+        this.classifier.setClassifierDataset(
+          Object.fromEntries(
+            datasetJson.map(([label, data, shape]) => [
+              label,
+              tf.tensor(data, shape),
+            ])
+          )
+        );
+  
+      }
       
+        
+      
+      //console.log(typeof(dataset));
+      //console.log(dataset);
+      
+      return true;
     } catch (error) {
       console.error(error);
       return null;

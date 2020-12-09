@@ -77,13 +77,13 @@ Content-Type: application/json
 
 {
     "brand":"chavez",
-    "ageMonth":"10",
-    "number":"6",
-    "entryDate":"2020-11-01T04:00:00.000Z",
-    "startingWeight":"320.56",
+    "ageMonth":"15",
+    "number":"10",
+    "entryDate":"2020-10-09T04:00:00.000Z",
+    "startingWeight":"205.32",
     "race":"nelore",
-    "gender":"female",
-    "state":"good"
+    "gender":"male",
+    "state":"normal"
 }
 ###
 DELETE  http://localhost:3000/api/cows HTTP/1.1

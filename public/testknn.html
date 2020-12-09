@@ -16,11 +16,8 @@
     <main id="main" class="container">
       <h1>Adjust Motion Parameters</h1>
 
-      <form class="form" method="POST" action="http://localhost:3000/knnclassifiers" >
+      <form class="form" onsubmit="sendData(event.preventDefault())">
         <input type="text" id="x" placeholder="x" />
-        <script>
-            document.getElementById("x").value
-        </script>
         <label for="x"> x</label></br>
         <input type="text" id="y" placeholder="y" />
         <label for="y"> y</label></br>
@@ -36,15 +33,6 @@
         <input type="text" id="orientation" placeholder="orientation" /><label for="orientation"> orientation</label></br>
         
         <input type="text" id="acceleration" placeholder="acceleration" /><label for="acceleration"> acceleration</label></br>
-
-        <label for="label">Choose a Label:</label>
-
-        <select name="label" id="label">
-          <option value="0">recostado</option>
-          <option value="1">parado</option>
-          <option value="2">comiendo</option>
-          <option value="3">caminando</option>
-        </select> </br>
         <label for="action">Choose an Action:</label>
 
         <select name="action" id="action">
@@ -103,7 +91,7 @@
 
         const response = await app.service("accelerometer").find({
           query: {
-            "data.deviceId": "5fa45c8f0abd0a30caa181af",
+            "data.deviceId": "5fd0e902ba8bf66fdc260888",
             $limit: 1,
             $sort: {
               $natural: -1,
