@@ -18,8 +18,13 @@ const routes = require("./routes/index");
 //Setting App
 const app = express(feathers());
 
+app.set('views', path.join(__dirname, 'views'));
+console.log(path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
 app.configure(configuration());
 app.use(helmet({ contentSecurityPolicy: false }));
+
 app.use(morgan("dev"));
 app.use(cors());
 app.use(compression());

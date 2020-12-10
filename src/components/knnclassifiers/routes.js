@@ -14,6 +14,13 @@ const {
 // router.get();
 
 router.post(
+  "/predictaccelerometer",
+  dataAccelerometer,
+  generateClassifier,
+  load,
+  predict
+);
+router.post(
   "/accelerometer",
   dataAccelerometer,
   generateClassifier,

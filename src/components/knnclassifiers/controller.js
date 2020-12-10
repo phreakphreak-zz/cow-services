@@ -170,6 +170,9 @@ knnclassifiersController.save = async (req, res, next) => {
 
 knnclassifiersController.predict = async (req, res, next) => {
   try {
+    const {tensor}=req.params;
+    const response = await knn.predictClassifier(tensor);
+    res.status(200).json({response});
   } catch (error) {
     logger.error(error);
     res.status(400).json({ error });

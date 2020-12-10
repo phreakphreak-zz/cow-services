@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include('partials/head.ejs') %>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <%- include('partials/navigation.ejs') %>
+    <div class="container">
+      <button onclick="showDevices()">Mostrar Dispos</button>
+      <main id="devicesContainer">
+
+      </main>
+    </div>
+    <script src="//unpkg.com/@feathersjs/client@^4.3.0/dist/feathers.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <div class="container-fluid" id="about"></div>
+    <%- include('partials/footer.ejs') %>
+
+    
+
+    <%  function showDevices(){ %>
+<% document.getElementById("devicesContainer").innerHTML+= "<button>val</button>" ; %> 
+
+    <% } %>
+
+
+    
+</script>
+  </body>
+</html>
