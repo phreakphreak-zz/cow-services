@@ -131,8 +131,20 @@ exports.Knn = class Knn {
       const dir = await this.verifyResource(resource);
       console.log("from load", dir);
       let dataset = fs.readFileSync(dir);
-      if(!dataset.length===0){
-        let datasetJson = JSON.parse(dataset);
+      if(dataset.length===0){
+        // let datasetJson = JSON.parse(dataset);
+        // //console.log(datasetJson);
+        // this.classifier.setClassifierDataset(
+        //   Object.fromEntries(
+        //     datasetJson.map(([label, data, shape]) => [
+        //       label,
+        //       tf.tensor(data, shape),
+        //     ])
+        //   )
+        // );
+  
+      }
+      let datasetJson = JSON.parse(dataset);
         //console.log(datasetJson);
         this.classifier.setClassifierDataset(
           Object.fromEntries(
@@ -142,8 +154,6 @@ exports.Knn = class Knn {
             ])
           )
         );
-  
-      }
       
         
       

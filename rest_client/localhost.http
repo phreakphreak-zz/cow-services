@@ -148,7 +148,7 @@ POST http://localhost:3000/streaming/upload HTTP/1.1
 Content-Type: application/json
 
 {
-    "collectionName":"classifiers",
+    "collectionName":"classifierrs", 
     "fileName":"dataset.json",
     "filePath": "./dataset.json"
 }

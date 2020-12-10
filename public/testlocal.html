@@ -76,13 +76,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
-      const socket = io("https://cow-services.herokuapp.com");
+      const socket = io("http://localhost:3000");
       const app = feathers();
       app.configure(feathers.socketio(socket));
 
       async function test() {
         const { data } = await axios.post(
-          "https://cow-services.herokuapp.com/devices",
+          "http://localhost:3000/devices",
           {
             number: 10,
             board: "Wemos D1",
@@ -108,7 +108,7 @@
         const action = document.getElementById("action");
         const label = document.getElementById("label");
         const uri =
-          "https://cow-services.herokuapp.com/knnclassifiers/accelerometer";
+          "http://localhost:3000/knnclassifiers/accelerometer";
         const { data } = await axios.post(uri, {
           x: parseFloat(x.value),
           y: parseFloat(y.value),
@@ -164,7 +164,7 @@
 
       async function savebd() {
         const { data } = await axios.post(
-          "https://cow-services.herokuapp.com/streaming/upload",
+          "http://localhost:3000/streaming/upload",
           {
             collectionName: "classifiersaccelerometer",
             fileName: "dataset.json",

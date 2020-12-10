@@ -22,7 +22,7 @@ knnclassifiersController.load = async (req, res, next) => {
   try {
     const { component } = req.params;
     const resource = `/${component}/dataset.json`;
-    const state = await knn.loadClassifier(resource);
+    await knn.loadClassifier(resource);
     // if (!state) {
     //   throw "error at classifiers load";
     // }
@@ -154,7 +154,7 @@ knnclassifiersController.save = async (req, res, next) => {
   try {
     const { component } = req.params;
     const resource = `/${component}/dataset.json`;
-    console.log(resource);
+    //console.log(resource);
     const state = await knn.saveClassifier(resource);
 
     if(!state){
