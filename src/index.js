@@ -16,3 +16,6 @@ server.on("listening", () => {
 connection.once("open", () => {
   logger.info("Database is connected");
 });
+connection.on("error", () => {
+  logger.error("Database is disconnected");
+});

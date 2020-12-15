@@ -9,7 +9,7 @@ POST http://localhost:3000/devices HTTP/1.1
 Content-Type: application/json
 
 {
-    "number":3,
+    "number":10,
     "board": "Wemos D1",
     "moduleWifi": "ESP8266",
     "macAddress": "84:0D:8E:A3:B1:EA",

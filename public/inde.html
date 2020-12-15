@@ -66,68 +66,17 @@
     //     messageInput.value = "";
     //   }
 
-      function addValuesAccelerometer(data) {
-        console.log("metodo ejecutandose");
-
-        const x = document.getElementById("x");
-        const y = document.getElementById("y");
-        const z = document.getElementById("z");
-        const pitch = document.getElementById("pitch");
-        const roll = document.getElementById("roll");
-        const inclination = document.getElementById("inclination");
-        const orientation = document.getElementById("orientation");
-        const acceleration = document.getElementById("acceleration");
-        x.value = data.x;
-        y.value = data.y;
-        z.value = data.z;
-        pitch.value = data.pitch;
-        roll.value = data.roll;
-        inclination.value = data.inclination;
-        orientation.value = data.orientation;
-        acceleration.value = data.acceleration;
-      }
-      const main = async () => {
-        try {
-
-        const response = await app.service("accelerometer").find({
-          query: {
-            "data.deviceId": "5fa45c8f0abd0a30caa181af",
-            $limit: 1,
-            $sort: {
-              $natural: -1,
-            },
-          },
-        });
-
-        response.forEach(element => {
-          const {data} = element;
-          addValuesAccelerometer(data);
-        });
-
-
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      app.service("accelerometer").on("created", LastResult);
-
-      async function LastResult() {
-        const res = await app.service("accelerometer").find({
-          query: {
-            "data.deviceId": "5fa45c8f0abd0a30caa181af",
-            $limit: 1,
-            $sort: {
-              $natural: -1,
-            },
-          },
-        });
-        res.forEach(element => addValuesAccelerometer(element.data))
-        console.log(res);
-      }
+    async function testStream(){
+      const res = await app.service("streaming").create({
+        collectionName:"json_classifiers",
+        fileName:"dataset.json",
+        filePath: "./dataset.json"
+      });
+      console.log(res);
+    }
 
       
     </script>
-    <button onclick="main()" value="loadLastResult">loadLastResult</button>
+    <button onclick="testStream()" value="loadResult">loadResult</button>
   </body>
 </html>

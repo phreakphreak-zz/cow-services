@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CowSensorApp</title>
+    <link
+      rel="stylesheet"
+      href="//unpkg.com/feathers-chat@4.0.0/public/base.css"
+    />
+    <link
+      rel="stylesheet"
+      href="//unpkg.com/feathers-chat@4.0.0/public/chat.css"
+    />
+  </head>
+  <body>
+    <main id="main" class="container">
+      <h1>Adjust Motion Parameters</h1>
+
+      <form class="form" onsubmit="sendData(event.preventDefault())">
+        <input type="text" id="x" placeholder="x" />
+        <label for="x"> x</label><br />
+        <input type="text" id="y" placeholder="y" />
+        <label for="y"> y</label><br />
+
+        <input type="text" id="z" placeholder="z" /><label for="z"> z</label
+        ><br />
+
+        <input type="text" id="pitch" placeholder="pitch" /><label for="pitch">
+          pitch</label
+        ><br />
+
+        <input type="text" id="roll" placeholder="roll" /><label for="roll">
+          roll</label
+        ><br />
+
+        <input type="text" id="inclination" placeholder="inclination" /><label
+          for="inclination"
+        >
+          inclination</label
+        ><br />
+
+        <input type="text" id="orientation" placeholder="orientation" /><label
+          for="orientation"
+        >
+          orientation</label
+        ><br />
+
+        <input type="text" id="acceleration" placeholder="acceleration" /><label
+          for="acceleration"
+        >
+          acceleration</label
+        ><br />
+        <label for="action">Choose an Action:</label>
+
+        <select name="action" id="action">
+          <option value="recostado">recostado</option>
+          <option value="parado">parado</option>
+          <option value="comiendo">comiendo</option>
+          <option value="caminando">caminando</option>
+        </select>
+        <br />
+        <label for="label">Choose an Label:</label>
+
+        <select name="label" id="label">
+          <option value="0">recostado</option>
+          <option value="1">parado</option>
+          <option value="2">comiendo</option>
+          <option value="3">caminando</option>
+        </select>
+        <br />
+        <button type="submit" class="button button-primary">Send Action</button>
+      </form>
+    </main>
+
+    <script src="//unpkg.com/@feathersjs/client@^4.3.0/dist/feathers.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+      const socket = io("http://localhost:3000");
+      const app = feathers();
+      app.configure(feathers.socketio(socket));
+
+      async function test() {
+        const { data } = await axios.post(
+          "http://localhost:3000/devices",
+          {
+            number: 10,
+            board: "Wemos D1",
+            moduleWifi: "ESP8266",
+            macAddress: "84:0D:8E:A3:B1:EA",
+            thermometer: "LM35",
+            accelerometer: "MPU6050",
+            gyro: "MPU6050",
+          }
+        );
+        console.log(data);
+      }
+      async function sendData() {
+        const x = document.getElementById("x");
+        const y = document.getElementById("y");
+        const z = document.getElementById("z");
+        const pitch = document.getElementById("pitch");
+        const roll = document.getElementById("roll");
+        const inclination = document.getElementById("inclination");
+        const orientation = document.getElementById("orientation");
+        const acceleration = document.getElementById("acceleration");
+
+        const action = document.getElementById("action");
+        const label = document.getElementById("label");
+        const uri =
+          "http://localhost:3000/knnclassifiers/accelerometer";
+        const { data } = await axios.post(uri, {
+          x: parseFloat(x.value),
+          y: parseFloat(y.value),
+          z: parseFloat(z.value),
+          pitch: parseFloat(pitch.value),
+          roll: parseFloat(roll.value),
+          inclination: parseFloat(inclination.value),
+          orientation: parseFloat(orientation.value),
+          acceleration: parseFloat(acceleration.value),
+          action: action.value,
+          label: parseInt(label.value),
+          component: "accelerometer",
+        });
+        console.log(data.message);
+      }
+
+      function addValuesAccelerometer(data) {
+        console.log("metodo ejecutandose");
+
+        const x = document.getElementById("x");
+        const y = document.getElementById("y");
+        const z = document.getElementById("z");
+        const pitch = document.getElementById("pitch");
+        const roll = document.getElementById("roll");
+        const inclination = document.getElementById("inclination");
+        const orientation = document.getElementById("orientation");
+        const acceleration = document.getElementById("acceleration");
+        x.value = data.x;
+        y.value = data.y;
+        z.value = data.z;
+        pitch.value = data.pitch;
+        roll.value = data.roll;
+        inclination.value = data.inclination;
+        orientation.value = data.orientation;
+        acceleration.value = data.acceleration;
+      }
+
+      app.service("accelerometer").on("created", LastResult);
+
+      async function LastResult() {
+        const res = await app.service("accelerometer").find({
+          query: {
+            "data.deviceId": "5fd147e062a6f65fa202b68c",
+            $limit: 1,
+            $sort: {
+              $natural: -1,
+            },
+          },
+        });
+        res.forEach((element) => addValuesAccelerometer(element.data));
+        // console.log(res);
+      }
+
+      async function savebd() {
+        const { data } = await axios.post(
+          "http://localhost:3000/streaming/upload",
+          {
+            collectionName: "classifiersaccelerometer",
+            fileName: "dataset.json",
+            filePath:
+              "./src/components/knnclassifiers/accelerometer/dataset.json",
+          }
+        );
+
+        console.log(data);
+
+        const msg = document.getElementById("messagesavebd");
+        const id = document.getElementById("idsavebd");
+        msg.value = data.message;
+        id.value = data.id;
+      }
+    </script>
+    <div class="container">
+      <button
+        onclick="LastResult()"
+        value="LastResult"
+        class="button button-primary"
+      >
+        Last result</button
+      ><br />
+    </div>
+    <div class="container">
+      <button onclick="test()" value="test" class="button button-primary">
+        test</button
+      ><br />
+    </div>
+
+    <div class="container">
+      <input
+        type="text"
+        name="messagesavebd"
+        id="messagesavebd"
+        placeholder="message"
+      /><br />
+
+      <input
+        type="text"
+        name="idsavebd"
+        id="idsavebd"
+        placeholder="objectID"
+      /><br />
+
+      <button onclick="savebd()" value="savebd" class="button button-primary">
+        savebd</button
+      ><br />
+    </div>
+  </body>
+</html>

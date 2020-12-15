@@ -77,13 +77,96 @@ Content-Type: application/json
 
 {
     "brand":"chavez",
-    "ageMonth":"10",
-    "number":"6",
-    "entryDate":"2020-11-01T04:00:00.000Z",
-    "startingWeight":"320.56",
+    "ageMonth":"15",
+    "number":"10",
+    "entryDate":"2020-10-09T04:00:00.000Z",
+    "startingWeight":"205.32",
     "race":"nelore",
-    "gender":"female",
-    "state":"good"
+    "gender":"male",
+    "state":"normal"
 }
 ###
 DELETE  http://localhost:3000/api/cows HTTP/1.1
+
+
+###
+
+POST http://localhost:3000/knnclassifiers HTTP/1.1
+Content-Type: application/json
+
+{
+    "x":3766,
+    "y":15,
+    "z":6,
+    "pitch":10,
+    "roll":-1,
+    "inclination":1,
+    "orientation":1,
+    "acceleration":1,
+    "action":"accion",
+    "label":0
+}
+
+###
+POST http://localhost:3000/knnclassifiers/accelerometer HTTP/1.1
+Content-Type: application/json
+
+{
+    "x":4766,
+    "y":15,
+    "z":6,
+    "pitch":10,
+    "roll":-1,
+    "inclination":1,
+    "orientation":1,
+    "acceleration":1,
+    "action":"accion",
+    "label":4,
+    "component":"accelerometer"
+}
+
+###
+POST http://localhost:3000/knnclassifiers/accelerometer HTTP/1.1
+Content-Type: application/json
+
+{
+    "x":11,
+    "y":15,
+    "z":6,
+    "pitch":10,
+    "roll":-1,
+    "inclination":1,
+    "orientation":1,
+    "acceleration":1,
+    "action":"accion",
+    "label":3,
+    "component":"accelerometer"
+}
+
+###
+POST http://localhost:3000/knnclassifiers/predictaccelerometer HTTP/1.1
+Content-Type: application/json
+
+{
+    "x":11,
+    "y":15,
+    "z":6,
+    "pitch":10,
+    "roll":-1,
+    "inclination":1,
+    "orientation":1,
+    "acceleration":1,
+    "action":"accion",
+    "label":3,
+    "component":"accelerometer"
+}
+
+###
+POST http://localhost:3000/streaming/upload HTTP/1.1
+Content-Type: application/json
+
+{
+    "collectionName":"classifierrs", 
+    "fileName":"dataset.json",
+    "filePath": "./dataset.json"
+}
